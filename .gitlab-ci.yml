@@ -1,0 +1,9 @@
+stages:
+    - build
+    - deploy
+
+variables:
+  TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+include:
+  - local: '/.gitlab/templates/build_stage.yml'
+  - local: '/.gitlab/templates/deploy_stage.yml'

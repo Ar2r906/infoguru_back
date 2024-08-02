@@ -1,0 +1,46 @@
+.before_script_template: &script_deploy
+  before_script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+
+
+.deploy: &deploy
+  stage: deploy
+  
+  <<: *script_deploy
+  tags: 
+    - shell
+  script:
+    -  ssh -p $SSH_PORT $SSH_USER@$SSH_HOST
+      "
+      cd $WORK_DIR &&
+      git fetch origin &&
+      git checkout $CI_COMMIT_REF_NAME &&
+      git pull origin $CI_COMMIT_REF_NAME &&
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+      docker pull $TAG_COMMIT &&
+      export IMAGE=$TAG_COMMIT &&
+      export DB_HOST=$DB_HOST &&
+      export DB_NAME=$DB_NAME &&
+      export DB_PASSWORD=$DB_PASSWORD &&
+      export DB_USER=$DB_USER &&
+      export SECRET=$SECRET &&
+      envsubst < ./.env.template > .env &&
+      envsubst < ./docker-compose.template.yml > docker-compose.yaml &&
+      docker-compose up -d &&
+      docker image prune -af &&
+      bash ./.gitlab/scripts/status.sh && 
+      bash ./.gitlab/scripts/healcheck.sh"
+
+deploy_prod:
+  environment:
+    name: main
+  only:
+  - main
+  <<: *deploy

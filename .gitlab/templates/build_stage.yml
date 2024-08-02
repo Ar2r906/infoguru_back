@@ -1,0 +1,23 @@
+.auth_in_registry: &auth_in_registry
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+.build: &build
+  stage: build
+  services:
+    - docker:23.0.6-dind
+  tags:
+    - docker_build
+  script:
+    - apk add envsubst
+    - envsubst < ./.env.temp > .env &&
+    - docker build -f docker/Dockerfile -t $TAG_COMMIT .
+    - *auth_in_registry
+    - docker push $TAG_COMMIT
+
+build_prod:
+  environment:
+    name: main
+  only:
+  - main
+  <<: *build
+

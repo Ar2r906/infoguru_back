@@ -1,0 +1,420 @@
+openapi: '3.0.2'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/auths/signup:
+    post:
+      parameters:
+        - name: email
+          in: query
+          description: Email пользователя
+          required: true
+          schema:
+            type: string
+            format: email
+        - name: password
+          in: query
+          description: Password пользователя
+          required: true
+          schema: 
+            type: string
+            format: password
+        - name: first_name
+          in: query
+          description: first_name пользователя
+          required: true
+          schema: 
+            type: string
+            format: text
+        - name: second_name
+          in: query
+          description: second_name пользователя
+          required: true
+          schema: 
+            type: string
+            format: text    
+        - name: patr_name
+          in: query
+          description: patr_name пользователя
+          required: true
+          schema: 
+            type: string
+            format: text
+      responses:
+        '201':
+          description: Пользователь успешно зарегистрирован
+        '400':
+          description: Пароль не соответствует требованиям безопасности
+        '401': 
+          description: Пользователь не зарегистрирован
+  /api/auths/signin:
+    post:
+      parameters:
+        - name: email 
+          in: query
+          description: Email пользователя
+          required: true
+          schema:
+            type: string
+            format: email 
+        - name: password
+          in: query
+          description: Password пользователя
+          required: true
+          schema: 
+            type: string
+            format: password
+      responses:
+        '200':
+          description: 'Успешный вход!'
+        '201':
+          description: Пользователь успешно зарегистрирован
+        '414':
+          description: Неверный логин или пароль
+        '500':
+          description: error.message
+  /api/news/:
+    get:
+      responses:
+        '200':
+          description: json.file
+        '500':
+          description: Internal server error
+  /api/news/news:  
+    post:
+      parameters:
+        - name: title 
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: content 
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: image
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: json.file
+        '500':
+          description: Internal server error
+  /api/news/:id:
+    get:
+      parameters:
+        - in: query
+          name: params
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: News not found
+        '500':
+          description: Internal server error
+    put:
+      parameters:
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: content
+          in: query
+          schema:
+            type: string
+        - name: image
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: News not found
+        '500':
+          description: Internal server error
+    delete:
+      parameters:
+        - in: query
+          name: params
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: News deleted
+        '404':
+          description: News not found
+        '500':
+          description: Internal server error
+  /api/articles/:id:
+    get:
+      parameters:
+        - in: query
+          name: params
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: Articles not found
+        '500':
+          description: Internal server error
+    put:
+      parameters:
+        - name: title
+          in: query
+          schema:
+            type: string
+        - name: content
+          in: query
+          schema:
+            type: string
+        - name: image
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: Articles not found
+        '500':
+          description: Internal server error
+    delete:   
+      parameters:
+        - in: query
+          name: params
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: Articles not found
+        '500':
+          description: Internal server error
+  /api/articles/:
+    get:
+      responses:
+        '200':
+          description: json.file
+        '500':
+          description: Internal server error
+  /api/articles/articles:
+    post:
+      parameters:
+        - name: title 
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: content 
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: image
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: json.file
+        '500':
+          description: Internal server error
+  /api/tests/addanswer1/:id:
+    get:
+      parameters:
+        - in: query
+          name: params
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    put:
+      parameters:
+        - in: query
+          name: question_1
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_2
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_3
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_4
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_5
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_6
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_7
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_8
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_9
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_10
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /api/tests/addanswer2/:id:
+    get:
+      parameters:
+        - in: query
+          name: params
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    put:
+      parameters:
+        - in: query
+          name: question_1
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_2
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_3
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_4
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_5
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_6
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_7
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_8
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_9
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_10
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /api/tests/addanswer3/:id:
+    get:
+      parameters:
+        - in: query
+          name: params
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    put:
+      parameters:
+        - in: query
+          name: question_1
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: question_2
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: json.file
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error      
